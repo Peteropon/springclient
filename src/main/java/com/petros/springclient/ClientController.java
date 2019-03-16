@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class ClientController {
 
     public static final Logger log = LoggerFactory.getLogger(SpringclientApplication.class);
-    String URL = "http://petros.us-east-2.elasticbeanstalk.com";
+    static String URL = "http://petros.us-east-2.elasticbeanstalk.com";
 
     private final
     RestTemplate restTemplate;
