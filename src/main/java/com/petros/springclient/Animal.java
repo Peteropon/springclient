@@ -1,4 +1,61 @@
 package com.petros.springclient;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "Details about the animal")
 public class Animal {
+
+    @ApiModelProperty(notes = "The identification number automatically created by the database.")
+    public Long id;
+
+    @ApiModelProperty(notes = "The animal's common name.")
+    public String name;
+
+    @ApiModelProperty(notes = "The animal's most common color.")
+    public String color;
+
+    @ApiModelProperty(notes = "The family in which the animal belongs.")
+    public String famliy;
+
+    public Animal() {
+    }
+
+    public Animal(String name, String color, String famliy) {
+        this.name = name;
+        this.color = color;
+        this.famliy = famliy;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getFamliy() {
+        return famliy;
+    }
+
+    public void setFamliy(String famliy) {
+        this.famliy = famliy;
+    }
 }

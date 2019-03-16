@@ -1,5 +1,9 @@
 package com.petros.springclient;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 
 @RestController
+@RequestMapping("api")
+@Api(value = "Animal Database Management", description = "Operations regarding the management of an animal database.")
 public class ClientController {
 
     public static final Logger log = LoggerFactory.getLogger(SpringclientApplication.class);
@@ -23,14 +29,21 @@ public class ClientController {
         this.restTemplate = restTemplate;
     }
 
+    @ApiOperation(value = "View a list of all available animals", response = String.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved list"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     @GetMapping(path = "/animals")
-    public String getAllAnimals(){
+    public ResponseEntity<String> getAllAnimals(){
         log.info("Request for all animals.");
-        ResponseEntity<String> re = restTemplate.exchange(URL+"/animals", HttpMethod.GET, null, String.class);
-        return re.getBody();
+        return restTemplate.exchange(URL+"/animals", HttpMethod.GET, null, String.class);
     }
 
 
+    @ApiOperation(value = "Get a randomly chosen animal from the database.")
     @GetMapping(path = "/randomanimal")
     public String getRandomAnimal(){
         log.info("Request for a random animal.");
@@ -38,6 +51,7 @@ public class ClientController {
         return re.getBody();
     }
 
+    @ApiOperation(value = "Add a new animal.")
     @PostMapping("/animals")
     public String createAnimal(@RequestBody Animal animal){
         HttpHeaders headers = new HttpHeaders();
