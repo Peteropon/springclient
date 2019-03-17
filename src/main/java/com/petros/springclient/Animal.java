@@ -1,30 +1,39 @@
 package com.petros.springclient;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 
+@Entity
 @ApiModel(description = "Details about the animal")
 public class Animal {
 
-    @ApiModelProperty(notes = "The identification number automatically created by the database.")
+    @Id
+    @GeneratedValue
     public Long id;
 
     @ApiModelProperty(notes = "The animal's common name.")
     public String name;
 
-    @ApiModelProperty(notes = "The animal's most common color.")
+    @ApiModelProperty(notes = "The animal's most common color.", allowEmptyValue = true)
+    @Nullable
     public String color;
 
-    @ApiModelProperty(notes = "The family in which the animal belongs.")
-    public String famliy;
+    @ApiModelProperty(notes = "The family in which the animal belongs.", allowEmptyValue = true)
+    @Nullable
+    public String family;
 
     public Animal() {
     }
 
-    public Animal(String name, String color, String famliy) {
+    public Animal(String name, String color, String family) {
         this.name = name;
         this.color = color;
-        this.famliy = famliy;
+        this.family = family;
     }
 
     public Long getId() {
@@ -51,11 +60,11 @@ public class Animal {
         this.color = color;
     }
 
-    public String getFamliy() {
-        return famliy;
+    public String getFamily() {
+        return family;
     }
 
     public void setFamliy(String famliy) {
-        this.famliy = famliy;
+        this.family = famliy;
     }
 }

@@ -1,9 +1,6 @@
 package com.petros.springclient;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +8,24 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
+import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api")
 @Api(value = "Animal Database Management", description = "Operations regarding the management of an animal database.")
 public class ClientController {
 
-    public static final Logger log = LoggerFactory.getLogger(SpringclientApplication.class);
+    static final Logger log = LoggerFactory.getLogger(SpringclientApplication.class);
     static String URL = "http://petros.us-east-2.elasticbeanstalk.com";
 
     private final
     RestTemplate restTemplate;
 
+    private AnimalRepository animalRepository;
+
     @Autowired
-    public ClientController(RestTemplate restTemplate) {
+    public ClientController(RestTemplate restTemplate, AnimalRepository animalRepository) {
         this.restTemplate = restTemplate;
+        this.animalRepository = animalRepository;
     }
 
     @ApiOperation(value = "View a list of all available animals", response = String.class)
@@ -53,11 +52,26 @@ public class ClientController {
 
     @ApiOperation(value = "Add a new animal.")
     @PostMapping("/animals")
-    public String createAnimal(@RequestBody Animal animal){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<Animal> entity = new HttpEntity<>(animal, headers);
-        return restTemplate.exchange(URL+"/animals", HttpMethod.POST, entity, String.class).getBody();
+    public void createAnimal(@ApiParam(value = "Store new animal in database table", required = true) @Valid @RequestBody Animal animal){
+//        HttpEntity<Animal> requestBody = new HttpEntity<>(animal);
+//        restTemplate.exchange(URL+"/animals", HttpMethod.POST, requestBody, Animal.class);
+//        ResponseEntity<Animal> result
+//                = restTemplate.postForEntity(URL+"/animals", requestBody, Animal.class);
+
+
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//        HttpEntity<Animal> entity = new HttpEntity<>(animal, headers);
+//        return restTemplate.exchange(URL+"/animals", HttpMethod.POST, entity, String.class).getBody();
+    }
+
+    @ApiOperation(value = "Delete an animal.")
+    @DeleteMapping(path = "/animals/{id}")
+    public void deleteAnimal(@PathVariable(value = "id") Long id){
+
+        restTemplate.delete(URL+"/animals/" + id);
+        //TODO : add exception
     }
 
 
