@@ -60,11 +60,12 @@ public class ClientController {
     @ApiOperation(value = "Add a new animal.")
     @PostMapping("/animals")
     public void createAnimal(@ApiParam(value = "Store new animal in database table", required = true) @Valid @RequestBody Animal animal){
-//        HttpEntity<Animal> requestBody = new HttpEntity<>(animal);
+        HttpEntity<Animal> requestBody = new HttpEntity<>(animal);
 //        restTemplate.exchange(URL+"/animals", HttpMethod.POST, requestBody, Animal.class);
 //        ResponseEntity<Animal> result
 //                = restTemplate.postForEntity(URL+"/animals", requestBody, Animal.class);
 
+        restTemplate.postForEntity(URL+"/animals", requestBody, String.class);
 //TODO: check out multivalue map in case it's what we want
 
 //        HttpHeaders headers = new HttpHeaders();
