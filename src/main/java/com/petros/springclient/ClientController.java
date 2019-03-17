@@ -20,12 +20,10 @@ public class ClientController {
     private final
     RestTemplate restTemplate;
 
-    private AnimalRepository animalRepository;
 
     @Autowired
-    public ClientController(RestTemplate restTemplate, AnimalRepository animalRepository) {
+    public ClientController(RestTemplate restTemplate ) {
         this.restTemplate = restTemplate;
-        this.animalRepository = animalRepository;
     }
 
     @ApiOperation(value = "View a list of all available animals", response = String.class)
@@ -59,14 +57,14 @@ public class ClientController {
 
     @ApiOperation(value = "Add a new animal.")
     @PostMapping("/animals")
-    public void createAnimal(@ApiParam(value = "Store new animal in database table", required = true) @Valid @RequestBody Animal animal){
+    public void createAnimal(@ApiParam(value = "Insert the info of the animal", required = true) @Valid @RequestBody Animal animal){
         HttpEntity<Animal> requestBody = new HttpEntity<>(animal);
         restTemplate.postForEntity(URL+"/animals", requestBody, String.class);
     }
 
     @ApiOperation(value = "Update an existing animal by entering its id.")
     @PutMapping("/animals/{id}")
-    public void updateAnimal(@ApiParam(value = "Update info", required = true) @PathVariable(value = "id") Long id, @Valid @RequestBody Animal animal){
+    public void updateAnimal(@ApiParam(value = "Insert id here", required = true) @PathVariable(value = "id") Long id, @Valid @RequestBody Animal animal){
         HttpEntity<Animal> requestBody = new HttpEntity<>(animal);
         //restTemplate.exchange(URL+"/animals/"+ id, HttpMethod.PUT, null, String.class);
         restTemplate.put(URL+"/animals/"+ id, requestBody);
