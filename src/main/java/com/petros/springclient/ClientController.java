@@ -41,6 +41,13 @@ public class ClientController {
         return restTemplate.exchange(URL+"/animals", HttpMethod.GET, null, String.class);
     }
 
+    @ApiOperation(value = "Enter an id number in order to find an animal.")
+    @GetMapping("/animals/{id}")
+    public ResponseEntity<String> getAnimalById(@PathVariable(value = "id") Long id){
+        log.info("Request for animal with id: " + id);
+        return  restTemplate.exchange(URL+"/animals/"+ id, HttpMethod.GET, null, String.class);
+    }
+
 
     @ApiOperation(value = "Get a randomly chosen animal from the database.")
     @GetMapping(path = "/randomanimal")
@@ -58,7 +65,7 @@ public class ClientController {
 //        ResponseEntity<Animal> result
 //                = restTemplate.postForEntity(URL+"/animals", requestBody, Animal.class);
 
-
+//TODO: check out multivalue map in case it's what we want
 
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
